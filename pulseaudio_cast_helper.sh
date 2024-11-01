@@ -83,10 +83,19 @@ case "$1" in
 			# "$3" is speakers-sink-name
 			# "$4" is mic-source-name
 			pacmd load-module module-null-sink sink_name="$2-null"
-			pacmd load-module module-remap-sink sink_name="$2" master="$2-null"
-			pacmd load-module module-loopback source="$4" sink="$2-null"
-			pacmd load-module module-loopback source="$2.monitor" sink="$3"
-			pacmd load-module module-combine-sink sink_name="$2-nullandmain" slaves="$3","$2-null"
+			sleep 1
+			pacmd load-module module-remap-sink \
+				sink_name="$2" master="$2-null"
+			sleep 1
+			pacmd load-module module-loopback \
+				latency_msec=30 source="$4" sink="$2-null"
+			sleep 1
+			pacmd load-module module-loopback \
+				latency_msec=30 source="$2.monitor" sink="$3"
+			sleep 1
+			pacmd load-module module-combine-sink \
+				sink_name="$2-nullandmain" slaves="$3","$2-null"
+			sleep 1
 		fi
 		;;
 	unload)
@@ -94,11 +103,55 @@ case "$1" in
 			bad_args
 		else
 			pacmd unload-module module-null-sink
+			sleep 1
 			pacmd unload-module module-remap-sink
+			sleep 1
 			pacmd unload-module module-loopback
+			sleep 1
 			pacmd unload-module module-combine-sink
+			sleep 1
 		fi
 		;;
+	#unload-module-null-sink)
+	#	if (( $# != 1 )); then
+	#		bad_args
+	#	else
+	#		pacmd unload-module module-null-sink
+	#		#pacmd unload-module module-remap-sink
+	#		#pacmd unload-module module-loopback
+	#		#pacmd unload-module module-combine-sink
+	#	fi
+	#	;;
+	#unload-module-remap-sink)
+	#	if (( $# != 1 )); then
+	#		bad_args
+	#	else
+	#		#pacmd unload-module module-null-sink
+	#		pacmd unload-module module-remap-sink
+	#		#pacmd unload-module module-loopback
+	#		#pacmd unload-module module-combine-sink
+	#	fi
+	#	;;
+	#unload-module-loopback)
+	#	if (( $# != 1 )); then
+	#		bad_args
+	#	else
+	#		#pacmd unload-module module-null-sink
+	#		#pacmd unload-module module-remap-sink
+	#		pacmd unload-module module-loopback
+	#		#pacmd unload-module module-combine-sink
+	#	fi
+	#	;;
+	#unload-module-combine-sink)
+	#	if (( $# != 1 )); then
+	#		bad_args
+	#	else
+	#		#pacmd unload-module module-null-sink
+	#		#pacmd unload-module module-remap-sink
+	#		#pacmd unload-module module-loopback
+	#		#pacmd unload-module module-combine-sink
+	#	fi
+	#	;;
 	*)
 		bad_args
 		;;
