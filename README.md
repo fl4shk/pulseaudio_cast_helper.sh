@@ -4,6 +4,11 @@ for use in situations like these:
 1. Recording audio (possibly with video too) locally.
 1. Streaming to Discord, Twitch, Youtube, etc.
 
+**This Bash script has only been tested on Linux running directly on an
+x86-64 CPU.**
+This means that this Bash script **has not** been tested on any
+version of Windows Subsystem for Linux nor any other kind of Unix.
+
 First run this command (with sample output shown) to find your desired sink
 (speakers/headset):
 ```bash
