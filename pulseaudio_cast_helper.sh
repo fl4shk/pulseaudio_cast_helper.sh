@@ -96,6 +96,7 @@ case "$1" in
 			pacmd unload-module module-null-sink
 			pacmd unload-module module-remap-sink
 			pacmd unload-module module-loopback
+			pacmd unload-module module-combine-sink
 		fi
 		;;
 	*)
